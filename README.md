@@ -28,7 +28,7 @@
 
 ```bash
 # 1. 下载skill包
-git clone https://github.com/你的用户名/alskai-deai-writer.git
+git clone https://github.com/Albert-Lsk/alskai-deai-writer.git
 cd alskai-deai-writer
 
 # 2. 运行安装脚本
