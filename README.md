@@ -1,6 +1,6 @@
 # alskai-deai-writer
 
-[![Version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](https://github.com/你的用户名/alskai-deai-writer/releases)
+[![Version](https://img.shields.io/badge/version-v1.0.3-blue.svg)](https://github.com/Albert-Lsk/alskai-deai-writer/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude](https://img.shields.io/badge/Claude-Compatible-purple.svg)](https://claude.ai)
 
@@ -16,7 +16,7 @@
 - 🔍 **自动事实核查**: Phase 0自动验证产品/工具信息
 - 📊 **8维度诊断**: 全面扫描AI味,精准定位问题
 - ✍️ **智能改写**: 保留核心信息,注入人性化风格
-- 📄 **灵活处理**: 支持直接更新Notion页面或生成新文档
+- 📄 **灵活处理**: 支持更新本地文件、Notion页面或生成新文档
 - 🚫 **严格原则**: 短句优先,限制列表滥用
 - 🛡️ **质量保障**: 不编造事实,不为黑而黑
 
@@ -32,8 +32,8 @@ git clone https://github.com/Albert-Lsk/alskai-deai-writer.git
 cd alskai-deai-writer
 
 # 2. 运行安装脚本
-chmod +x install-to-claude-code.sh
-./install-to-claude-code.sh
+chmod +x scripts/install-to-claude-code.sh
+./scripts/install-to-claude-code.sh
 
 # 3. 在Claude Code中重新加载
 /reload-skills
@@ -41,7 +41,7 @@ chmod +x install-to-claude-code.sh
 
 ### 在Claude.ai中安装
 
-1. 下载 `alskai-deai-writer-v1.0.0.skill` 文件
+1. 下载 `releases/alskai-deai-writer-v1.0.3.skill` 文件
 2. 在Claude.ai中: Settings > Capabilities > Skills
 3. 点击"Upload skill"上传.skill文件
 4. 完成!
@@ -50,47 +50,74 @@ chmod +x install-to-claude-code.sh
 
 ## 💡 使用示例
 
-### 示例1: 产品介绍改写
+### 示例1: 更新本地文件 (CLI用户最常见)
 
 **输入**:
 ```
-帮我改写这段产品介绍,去掉AI味:
-
-在当今快速发展的数字化时代,我们的产品具备强大的功能和便捷的体验。
-首先,它可以有效提升工作效率...
+帮我改写这个README,去掉AI味:
+~/project/README.md
 ```
 
 **输出**:
 ```
 [Phase 0] 事实核查...
 [Phase 1] AI味浓度: 85/100 + 清爽版
-[Phase 2] 锐度诊断 + 3种风格选项
+[Phase 2] 锐度诊断 + 4种风格选项
 
 你: "用专业商务风"
 
-[Phase 3] 专业商务风版本:
-"这个工具将文件处理时间从45分钟缩短到8分钟,
-节省82%的重复操作..."
+[Phase 3] 专业商务风版本改写完成
+[Phase 4] 检测到本地文件: ~/project/README.md
+         
+         1️⃣ 更新本地文件 (推荐)
+         2️⃣ 生成新文档
+
+你: "1"
+
+✅ 本地文件已更新!
+   路径: ~/project/README.md
 ```
 
-### 示例2: 技术文档改写
+### 示例2: 更新Notion页面
 
 **输入**:
 ```
-这段技术说明太像AI写的,能帮我改改吗?
-
-该系统采用先进的微服务架构,通过分布式部署实现高可用性...
+改写这个Notion页面:
+https://notion.so/My-Product-Intro-abc123
 ```
 
 **输出**:
 ```
-[诊断并展示风格选项]
+[完成改写]
 
-你: "技术科普风"
+[Phase 4] 检测到Notion页面
+         
+         1️⃣ 更新Notion页面 (推荐)
+         2️⃣ 生成新文档
 
-[重构版本]:
-"系统拆成了十几个独立服务。一个服务挂了,其他的照样运行。
-就像轮胎爆了一个,车还能开..."
+你: "1"
+
+✅ Notion页面已更新!
+   链接: https://notion.so/My-Product-Intro-abc123
+```
+
+### 示例3: 只改写文本
+
+**输入**:
+```
+改写这段产品介绍,去掉AI味:
+
+[粘贴文本]
+```
+
+**输出**:
+```
+[完成改写]
+
+📝 改写后的文档:
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+[改写后的内容]
+━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ---
@@ -174,8 +201,9 @@ Phase 2: 锐度诊断 + 风格选择
 Phase 3: 风格化重构
   ↓ 注入选定风格,输出最终版
   
-Phase 4: 文档处理选择 (v1.0.2新增)
-  ↓ 直接更新Notion页面 or 生成新文档
+Phase 4: 智能文档处理 (v1.0.3重新设计)
+  ↓ 检测场景: 本地文件 / Notion页面 / 纯文本
+  ↓ 更新本地文件 OR 更新Notion OR 生成新文档
 ```
 
 ---
@@ -210,19 +238,28 @@ Phase 4: 文档处理选择 (v1.0.2新增)
 
 ## 🔄 版本历史
 
+### v1.0.3 (2026-01-31) - 最新版本
+
+**重大改进**:
+- ✅ Phase 4完全重新设计
+- ✅ 优先支持本地文件更新 (CLI用户核心需求)
+- ✅ 智能场景检测 (文件路径/Notion链接/纯文本)
+- ✅ 平台差异处理 (Claude Code vs Claude.ai)
+
+### v1.0.2 (2026-01-30)
+
+**新增功能**:
+- ✅ Phase 4: 文档处理选择
+- ✅ 支持直接更新Notion页面
+
 ### v1.0.0 (2026-01-29)
 
 **重大更新**:
-- ✅ 新增3种风格系统
+- ✅ 新增4种风格系统
 - ✅ 支持风格选择
 - ✅ 通用化改造
 
 详见 [CHANGELOG.md](CHANGELOG.md)
-
-### v0.0.1 (2026-01-27)
-
-- 首次发布
-- 单一风格(ALSKai个人风格)
 
 ---
 
@@ -243,6 +280,7 @@ Phase 4: 文档处理选择 (v1.0.2新增)
 - 改进事实核查逻辑
 - 添加更多使用示例
 - 修复bug
+- 支持更多文档平台(飞书、语雀等)
 
 ---
 
@@ -251,7 +289,8 @@ Phase 4: 文档处理选择 (v1.0.2新增)
 **遇到问题?**
 - 查看 [INSTALLATION.md](INSTALLATION.md) 安装指南
 - 查看 [CHANGELOG.md](CHANGELOG.md) 版本说明
-- 提交 [Issue](https://github.com/你的用户名/alskai-deai-writer/issues)
+- 查看 [UPGRADE_v1.0.3.md](UPGRADE_v1.0.3.md) 升级指南
+- 提交 [Issue](https://github.com/Albert-Lsk/alskai-deai-writer/issues)
 
 **有建议?**
 - 欢迎提Issue讨论
